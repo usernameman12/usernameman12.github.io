@@ -1,0 +1,18 @@
+body {
+    background-color: #eefae2;
+    color: #2f4f2f;
+  }
+  
+  .sidebar {
+    background-color: rgba(34, 139, 34, 0.8);
+  }
+  
+  .spinner {
+    border-top: 8px solid forestgreen;
+  }
+  
+  #settings-modal {
+    background-color: #f0fff0;
+    color: #2f4f2f;
+  }
+  

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hedgehog</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="themes/nature.css" id="theme-css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="background-animation"></div>
+
+  <div class="loading-screen" id="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="sidebar">
+    <i class="fas fa-home" title="Home"></i>
+    <i class="fas fa-globe" title="Browser"></i>
+    <i class="fas fa-gamepad" title="Games"></i>
+    <i class="fas fa-th-large" title="Apps"></i>
+    <i class="fas fa-film" title="Movies"></i>
+    <hr>
+    <i class="fas fa-cog" id="settings-button" title="Settings"></i>
+  </div>
+
+  <div id="content">
+    <h1>Welcome to Hedgehog</h1>
+  </div>
+
+  <div id="settings-modal" class="hidden">
+    <div class="modal-content">
+      <h2>Settings</h2>
+      <label>Themes:</label>
+      <select id="theme-select"></select>
+      <label><input type="checkbox" id="particles-toggle"> Enable Particles</label>
+      <label><input type="checkbox" id="cloak-blank"> Enable about:blank cloaking</label>
+      <label><input type="checkbox" id="cloak-blob"> Enable blob cloaking</label>
+      <button id="close-settings">Close</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
