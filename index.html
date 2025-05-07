@@ -1,46 +1,383 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Hedgehog</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="themes/nature.css" id="theme-css">
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shenanigans</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.11.1/tsparticles.bundle.min.js"></script>
+    <style>
+        * {
+        			margin: 0;
+        			padding: 0;
+        			box-sizing: border-box;
+        		}
+        
+        		body {
+        			overflow: hidden;
+        			height: 100vh;
+        			background: #0e0e0e;
+        			font-family: 'Poppins', sans-serif;
+        			position: relative;
+        			color: white;
+        		}
+        
+        		.background-container {
+        			position: absolute;
+        			top: 0;
+        			left: 0;
+        			width: 100%;
+        			height: 100%;
+        			overflow: hidden;
+        			z-index: 0;
+        		}
+        
+        		.background-image {
+        			position: absolute;
+        			top: 50%;
+        			left: 50%;
+        			transform: translate(-50%, -50%);
+        			min-width: 110%;
+        			min-height: 110%;
+        			object-fit: cover;
+        			filter: blur(8px) brightness(0.4);
+        			transition: transform 0.2s ease;
+        		}
+        
+        		#bg-new {
+        			clip-path: circle(0% at 50% 50%);
+        			transition: clip-path 1.5s ease;
+        			z-index: 1;
+        		}
+        
+        		#bg-old {
+        			z-index: 0;
+        		}
+        
+        		.glass {
+        			position: absolute;
+        			top: 50%;
+        			left: 50%;
+        			transform: translate(-50%, -50%);
+        			background: rgba(255, 255, 255, 0.05);
+        			border: 1px solid rgba(255, 255, 255, 0.1);
+        			backdrop-filter: blur(15px);
+        			width: 350px;
+        			padding: 30px 20px;
+        			border-radius: 20px;
+        			text-align: center;
+        			box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        			z-index: 3;
+        		}
+        
+        		.profile img {
+        			width: 100px;
+        			height: 100px;
+        			object-fit: cover;
+        			border-radius: 50%;
+        			border: 3px solid white;
+        			margin-bottom: 15px;
+        		}
+        
+        		.name {
+        			font-size: 24px;
+        			font-weight: 600;
+        			margin-bottom: 10px;
+        		}
+        
+        		.text-typing {
+        			font-size: 16px;
+        			min-height: 22px;
+        			white-space: nowrap;
+        			overflow: hidden;
+        			border-right: 2px solid white;
+        			margin-bottom: 25px;
+        			animation: blinkCursor 0.7s infinite;
+        		}
+        
+        		@keyframes blinkCursor {
+        
+        			0%,
+        			100% {
+        				border-color: transparent;
+        			}
+        
+        			50% {
+        				border-color: white;
+        			}
+        		}
+        
+        		.socials {
+        			display: flex;
+        			justify-content: center;
+        			gap: 20px;
+        			margin-top: 10px;
+        		}
+        
+        		.socials a {
+        			color: white;
+        			font-size: 24px;
+        			transition: all 0.3s ease;
+        		}
+        
+        		.socials a:hover {
+        			color: #7f00ff;
+        			transform: scale(1.2);
+        		}
+        	.music-widget {
+        	position: absolute;
+        	top: 20px;
+        	left: 20px;
+        	background: rgba(255, 255, 255, 0.08);
+        	border: 1px solid rgba(255, 255, 255, 0.15);
+        	backdrop-filter: blur(10px);
+        	border-radius: 10px;
+        	padding: 8px 12px;
+        	display: flex;
+        	gap: 10px;
+        	z-index: 9999;
+        	}
+        	
+        	.music-widget button {
+        	background: none;
+        	border: none;
+        	color: white;
+        	font-size: 18px;
+        	cursor: pointer;
+        	transition: transform 0.2s;
+        	}
+        	
+        	.music-widget button:hover {
+        	transform: scale(1.2);
+        	}
+        #snow {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 2; 
+        pointer-events: none; 
+        }
+    </style>
 </head>
+
 <body>
-  <div id="background-animation"></div>
-
-  <div class="loading-screen" id="loading">
-    <div class="spinner"></div>
-  </div>
-
-  <div class="sidebar">
-    <a href="#"><i class="fas fa-home" title="Home"></i></a>
-    <a href="#"><i class="fas fa-globe" title="Browser"></i></a>
-    <a href="#"><i class="fas fa-gamepad" title="Games"></i></a>
-    <a href="#"><i class="fas fa-th-large" title="Apps"></i></a>
-    <a href="#"><i class="fas fa-film" title="Movies"></i></a>
-    <hr>
-    <a href="#" id="settings-link"><i class="fas fa-cog" id="settings-button" title="Settings"></i></a>
-  </div>
-  
-
-  <div id="content">
-    <h1>Welcome to Hedgehog</h1>
-  </div>
-
-  <div id="settings-modal" class="hidden">
-    <div class="modal-content">
-      <h2>Settings</h2>
-      <label>Themes:</label>
-      <select id="theme-select"></select>
-      <label><input type="checkbox" id="particles-toggle"> Enable Particles</label>
-      <label><input type="checkbox" id="cloak-blank"> Enable about:blank cloaking</label>
-      <label><input type="checkbox" id="cloak-blob"> Enable blob cloaking</label>
-      <button id="close-settings">Close</button>
+    <div id="snow"></div>
+    <div class="music-widget">
+        <button id="playPauseBtn"><i class="fas fa-play"></i></button>
+        <button id="skipBtn"><i class="fas fa-forward"></i></button>
     </div>
-  </div>
 
-  <script src="script.js"></script>
+    <audio id="audioPlayer" preload="auto"></audio>
+    <div class="background-container">
+        <img id="bg-old" class="background-image" src="https://picsum.photos/1200/800?random=1" alt="Background Old">
+        <img id="bg-new" class="background-image" src="https://picsum.photos/1200/800?random=2" alt="Background New" style="opacity: 0;">
+    </div>
+
+    <div class="glass">
+        <div class="profile">
+            <img src="https://cdn.discordapp.com/avatars/1231049528300535808/82601368c84f2d3cb18fd63848004580.png?size=512" alt="Profile Picture">
+        </div>
+        <div class="name">Oreo</div>
+        <div id="typewriter" class="text-typing"></div>
+
+        <div class="socials">
+            <a href="https://github.com/usernameman12" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://lupine.red" target="_blank"><i class="fas fa-dragon"></i></a>
+            <a href="https://guns.lol/now.gg" target="_blank"><i class="fas fa-gamepad"></i></a>
+            <a href="https://usernameman12.github.io/BlipBeats/" target="_blank"><i class="fa-light fa-droplet"></i></a>
+        </div>
+    </div>
+
+    <script>
+        const facts = [
+            "Coffee is Life",
+            "Im the goat?!",
+            "1700 elo - chess.com",
+            "Join my Discord frfr",
+            "just a silly billy, in a silly world",
+            "Shenanigans",
+            "im a programmer!",
+            "self proclaimed genius",
+            "welcome to the dumpster fire",
+          	"Fueled by vibes",
+          	"Grandmaster of naps",
+          	"500 IQ (trust)",
+          	"this is so scuffed, enjoy",
+          	"whats wrong with this this sentance?",
+          	"Professional overthinker",
+          	"Catch these virtual hands",
+          	"Chasing mah dreams",
+           	"Embrace the chaos",
+          	"Just here for the memes" 
+          ];
+          let factIndex = 0;
+          let charIndex = 0;
+          const typingSpeed = 100;
+          const typewriterEl = document.getElementById('typewriter');
+        
+          function type() {
+            if (charIndex < facts[factIndex].length) {
+              typewriterEl.innerHTML += facts[factIndex].charAt(charIndex);
+              charIndex++;
+              setTimeout(type, typingSpeed);
+            } else {
+              setTimeout(erase, 2000);
+            }
+          }
+        
+          function erase() {
+            if (charIndex > 0) {
+              typewriterEl.innerHTML = facts[factIndex].substring(0, charIndex - 1);
+              charIndex--;
+              setTimeout(erase, typingSpeed / 2);
+            } else {
+              factIndex = (factIndex + 1) % facts.length;
+              setTimeout(type, 500);
+            }
+          }
+        
+          type();
+        
+          const bgOld = document.getElementById('bg-old');
+          const bgNew = document.getElementById('bg-new');
+        
+          document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX / window.innerWidth - 0.5) * -10;
+            const moveY = (e.clientY / window.innerHeight - 0.5) * -10;
+            bgOld.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
+            bgNew.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
+          });
+        
+          let current = 2;
+          function changeBackground() {
+            current++;
+            const newUrl = `https://picsum.photos/1200/800?random=${current}`;
+            const imgPreload = new Image();
+            imgPreload.src = newUrl;
+        
+            imgPreload.onload = () => {
+              bgNew.src = newUrl;
+              bgNew.style.opacity = 1;
+              bgNew.style.transition = "none";
+              bgNew.style.clipPath = "circle(0% at 50% 50%)";
+        
+              requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                  bgNew.style.transition = "clip-path 1.5s ease";
+                  bgNew.style.clipPath = "circle(150% at 50% 50%)";
+                });
+              });
+        
+              setTimeout(() => {
+                bgOld.src = newUrl;
+                bgNew.style.opacity = 0;
+              }, 1600);
+            };
+          }
+          setInterval(changeBackground, 6000);
+        const songs = [
+        {
+        name: "TrapRoalty",
+        url: "" 
+        },
+        {
+        name: "Calypso - CG5",
+        url: ""
+        },
+        {
+        name: "Finale",
+        url:
+        ""
+        }
+        ];
+        
+        let currentSongIndex = 0;
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        
+        audioPlayer.src = songs[currentSongIndex].url;
+        audioPlayer.volume = 0.5; 
+        audioPlayer.autoplay = false; 
+        
+        playPauseBtn.addEventListener('click', () => {
+        if (audioPlayer.paused) {
+        audioPlayer.play();
+        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        } else {
+        audioPlayer.pause();
+        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        }
+        });
+        
+        skipBtn.addEventListener('click', () => {
+        currentSongIndex = (currentSongIndex + 1) % songs.length;
+        audioPlayer.src = songs[currentSongIndex].url;
+        audioPlayer.play();
+        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        });
+        
+        audioPlayer.addEventListener('ended', () => {
+        skipBtn.click();
+        });
+        tsParticles.load("snow", {
+        particles: {
+        number: {
+        value: 200,
+        density: {
+        enable: true,
+        value_area: 800
+        }
+        },
+        color: {
+        value: "#ffffff"
+        },
+        shape: {
+        type: "circle"
+        },
+        opacity: {
+        value: 0.7,
+        random: {
+        enable: true,
+        minimumValue: 0.3
+        }
+        },
+        size: {
+        value: { min: 1, max: 5 },
+        random: true
+        },
+        move: {
+        direction: "bottom",
+        enable: true,
+        speed: { min: 1, max: 3 }, 
+        random: false,
+        straight: false,
+        outModes: {
+        default: "out"
+        },
+        gravity: {
+        enable: true,
+        acceleration: 1
+        }
+        }
+        },
+        interactivity: {
+        events: {
+        onhover: {
+        enable: false
+        },
+        onclick: {
+        enable: false
+        }
+        }
+        },
+        background: {
+        color: "transparent"
+        }
+        });
+    </script>
+
 </body>
+
 </html>
